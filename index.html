@@ -104,11 +104,32 @@
             </div>
             <div id="phone-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                
+
             </div>
             <div id="show-all-container" class="text-center hidden">
                 <button onclick="handleShowAll()" class="primary-btn">Show All</button>
             </div>
+        </section>
+
+        <!-- modal section -->
+        <section>
+            <!-- Open the modal using ID.showModal() method -->
+            <dialog id="show_detail_modal" class="modal  sm:modal-middle">
+                <div class=" bg-white max-w-[752px] max-h-[1200px] p-10 rounded-lg">
+                    <div id="show-detail-container">
+                        <!-- for js -->
+                        
+
+                    </div>
+                    
+                    <div class="modal-action">
+                        <form method="dialog">
+                            <!-- if there is a button in form, it will close the modal -->
+                            <button class="btn text-white bg-red-600">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </section>
     </main>
 

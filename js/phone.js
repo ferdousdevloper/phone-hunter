@@ -1,4 +1,4 @@
-const loadPhone = async (searchText, isShowAll) => {
+const loadPhone = async (searchText = '13', isShowAll) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
     const data = await res.json();
     const phones = data.data;
@@ -19,7 +19,7 @@ const displayPhones = (phones, isShowAll) => {
     else {
         showAllContainer.classList.add('hidden');
     };
-    console.log('is show all', isShowAll)
+    // console.log('is show all', isShowAll)
     //display only first 12 phones ifd not show all
     if (!isShowAll) {
         phones = phones.slice(0, 12);
@@ -41,7 +41,7 @@ const displayPhones = (phones, isShowAll) => {
                 phone_name}</h2>
                 <p class=" text-[#706F6F] text-lg leading-8 mb-2 " >Tech innovation, powerful cameras, sleek designs—diverse mobile models redefine excellence</p>
                 <div class="card-actions justify-center">
-                    <button class=" primary-btn py-3 text-xl font-semibold ">Show Details</button>
+                    <button onclick="handleShowDetail('${phone.slug}')" class=" primary-btn py-3 text-xl font-semibold ">Show Details</button>
                 </div>
             </div>
         </div>        
@@ -49,6 +49,41 @@ const displayPhones = (phones, isShowAll) => {
         phoneContainer.appendChild(phoneCard);
     });
     toggleLoadingSpinner(false);
+}
+
+const handleShowDetail = async (id) => {
+    // console.log('clicked handle', id)
+    //load single phone data
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const data = await res.json();
+    const phone = data.data;
+
+    showPhoneDetails(phone);
+}
+
+const showPhoneDetails = (phone) => {
+    console.log(phone);
+    const showDetailContainer = document.getElementById('show-detail-container');
+
+    showDetailContainer.innerHTML = `
+        <div>
+            <div class="flex flex-col items-center bg-[#0D6EFD0D] py-12 px-48 mb-10">
+                <img class="max-w-[672px]" src="${phone.image}" alt="">
+            </div>
+            <div>
+                <h2 class="text-[#403F3F] text-3xl font-bold mb-6">${phone.name}</h2>
+                <p class="text-[#706F6F] leading-7 max-w-[670px] mb-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+                <p class="text-[#706F6F]  mb-4"><span class="text-[#403F3F] text-xl font-semibold">Storage : </span> ${phone?.mainFeatures?.storage}</p>
+                <p class="text-[#706F6F]  mb-4"><span class="text-[#403F3F] text-xl font-semibold">Display Size : </span> ${phone?.mainFeatures?.displaySize}</p>
+                <p class="text-[#706F6F]  mb-4"><span class="text-[#403F3F] text-xl font-semibold">Chipset : </span> ${phone?.mainFeatures?.chipSet}</p>
+                <p class="text-[#706F6F]  mb-4"><span class="text-[#403F3F] text-xl font-semibold">Slug : </span> ${phone?.slug}</p>
+                <p class="text-[#706F6F]  mb-4"><span class="text-[#403F3F] text-xl font-semibold">Release data : </span> ${phone?.releaseDate}</p>
+                <p class="text-[#706F6F]  mb-4"><span class="text-[#403F3F] text-xl font-semibold">GPS : </span> ${phone?.others?.GPS}</p>
+            </div>
+        </div>
+    `
+
+    show_detail_modal.showModal()
 }
 
 //handle search button
@@ -77,4 +112,4 @@ const handleShowAll = () => {
     handleSearch(true)
 }
 
-// loadPhone();
+loadPhone();
